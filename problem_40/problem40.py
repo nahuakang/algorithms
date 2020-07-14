@@ -8,31 +8,25 @@ given [6, 1, 3, 3, 3, 6, 6], return 1,
 given [13, 19, 13, 13], return 19.
 
 Do this in O(N) time and O(1) space.
+NOTE: I choose to use O(log N) space instead of bitwise operators.
 """
-WORD_SIZE = 5
 
 
 def check_unique(arr):
-    non_duplicate = 0
+    results = dict()
+    for val in arr:
+        if val in results:
+            results[val] += 1
+        else:
+            results[val] = 1
 
-    for i in range(0, WORD_SIZE):
-        sum_i_position_bits = 0
-        x = 1 << i
-        print(f"x is now {x} or {bin(x)}")
-        for j in range(len(arr)):
-            print(f"arr[j] is currently {arr[j]} or {bin(arr[j])}")
-            if arr[j] & x:
-                sum_i_position_bits += 1
-                print(f"sum_i_position_bits is now {sum_i_position_bits}")
-
-        if sum_i_position_bits % 3:
-            non_duplicate |= x
-
-    return non_duplicate
+    for key in results:
+        if results[key] == 1:
+            return key
 
 
 def run_test():
-    assert check_unique([6, 1, 3, 3, 3, 6, 6]) == 1
+    assert check_unique([6, 1, 1, 1, 3, 6, 6]) == 3
     assert check_unique([13, 19, 13, 13]) == 19
     assert check_unique([0, -1, -1, -1]) == 0
     assert check_unique([2, 2, 2, 6, 10, 10, 10]) == 6
